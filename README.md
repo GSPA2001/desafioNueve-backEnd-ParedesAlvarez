@@ -11,8 +11,10 @@
 Instalación:
 * npm init -y (e instalación de nodemon)
 * npm install bcrypt
+* npm install commander
 * npm install connect-mongo
 * npm install cookie-parser
+* npm install cors
 * npm install dotenv (para el archivo .env)
 * npm install express
 * npm install express-handlebars
