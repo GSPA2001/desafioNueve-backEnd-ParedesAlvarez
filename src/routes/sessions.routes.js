@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 import passport from 'passport'
 import User from '../models/user.model.js'
-import initPassport from '../config/passport.config.js'
+import initPassport from '../auth/passport.auth.js'
 
 
 const router = Router()
