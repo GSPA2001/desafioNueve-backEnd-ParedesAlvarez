@@ -2,7 +2,7 @@ import passport from 'passport'
 import LocalStrategy from 'passport-local'
 import GithubStrategy from 'passport-github2'
 import User from '../models/user.model.js'
-import { createHash, isValidPassword, generateToken, authToken } from '../utils.js'
+import { createHash, isValidPassword } from '../utils.js'
 import config from '../config.js'
 
 const initPassport = () => {

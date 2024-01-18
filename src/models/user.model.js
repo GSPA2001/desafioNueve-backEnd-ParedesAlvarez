@@ -11,7 +11,8 @@ const schema = new mongoose.Schema({
     email: { type: String, required: true },
     age: { type: Number },
     password: { type: String, required: true },
-    rol: { type: String, default: '' },
+    cart: { type: mongoose.Schema.Types.ObjectId },
+    rol: { type: String, default: 'user' },
 });
 
 // Importamos mongoose-paginate-v2 y lo activamos como plugin, para tener disponible
