@@ -7,7 +7,7 @@ commandLineOptions
     .option('--port <port>')
 commandLineOptions.parse()
 
-// Proximamente defino los dos .env, mientras tanto trabajo con uno solo.
+// Estan en .gitignore pero es igual a .env
 switch (commandLineOptions.opts().mode) {
     case 'prod':
         dotenv.config({ path: './.env'});
@@ -19,12 +19,14 @@ switch (commandLineOptions.opts().mode) {
 }
 
 const config = {
+    PORT: commandLineOptions.opts().port || process.env.PORT,
     //MONGOOSE_URL: process.env.MONGOOSE_URI,
     githubAuth: {
         clientId: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: process.env.GITHUB_CLIENT_CALLBACK,
-    }
+        callbackUrl: `${process.env.GITHUB_CLIENT_CALLBACK.replace('8080', process.env.PORT || '5500')}`
+    },
+    PERSISTENCE: process.env.PERSISTENCE
 };
 
 export default config;
