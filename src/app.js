@@ -130,6 +130,23 @@ try {
   console.error(`Backend: error al inicializar 🚨🚨🚨(${err.message})`);
 }
 
+// Manejo de eventos para finalización y excepciones
+process.on('exit', code => {
+  switch (code) {
+    case -4:
+      console.log('Proceso finalizado por argumentación inválida en una función');
+      break;
+    
+    default:
+      console.log(`El proceso de servidor finalizó (err: ${code})`);
+  }
+});
+
+process.on('uncaughtException', exception => {
+  console.error(exception.name);
+  console.error(exception.message);
+});
+
 async function getChats() {
   try {
     let result = await messageModel.find();
