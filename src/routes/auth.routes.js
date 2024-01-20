@@ -127,14 +127,12 @@ router.get("/failrestore", async (req, res) => {
     });
 });
 
-router.get(
-  "/github",
+router.get("/github",
   passport.authenticate("githubAuth", { scope: ["user:email"] }),
   async (req, res) => {}
 );
 
-router.get(
-  "/githubcallback",
+router.get("/githubcallback",
   passport.authenticate("githubAuth", { failureRedirect: "/login" }),
   async (req, res) => {
     req.session.user = req.user;
@@ -143,8 +141,7 @@ router.get(
 );
 
 // router.get('/current', passportCall('jwtAuth', { session: false }), authorizationMid('admin'), async (req, res) => {
-router.get(
-  "/current",
+router.get("/current",
   passportCall("jwtAuth", { session: false }),
   handlePolicies(["user", "premium", "admin"]),
   async (req, res) => {
@@ -232,8 +229,7 @@ router.post("/login_manual_jwt", async (req, res) => {
   }
 });
 
-router.post(
-  "/login_passport_jwt",
+router.post("/login_passport_jwt",
   passport.authenticate("loginAuth", {
     failureRedirect: "/login?msg=Email o clave no válidos",
     session: false,
@@ -248,8 +244,7 @@ router.post(
   }
 );
 
-router.post(
-  "/register",
+router.post("/register",
   passport.authenticate("registerAuth", {
     failureRedirect: "/api/auth/failregister",
   }),
@@ -262,8 +257,7 @@ router.post(
   }
 );
 
-router.post(
-  "/restore",
+router.post("/restore",
   passport.authenticate("restoreAuth", {
     failureRedirect: "/api/auth/failrestore",
   }),

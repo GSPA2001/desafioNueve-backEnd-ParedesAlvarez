@@ -42,16 +42,26 @@ export const authToken = (req, res, next) => {
 
 export const passportCall = (strategy, options) => {
   return async (req, res, next) => {
-    passport.authenticate(strategy, options, (err, user, info) => {
-      if (err) return next(err);
-      if (!user)
-        return res.status(401).send({
-          status: "ERR",
-          data: info.messages ? info.messages : info.toString(),
-        });
-      req.user = user;
-      next();
-    })(req, res, next);
+    try {
+      passport.authenticate(strategy, options, (err, user, info) => {
+        if (err) {
+          throw err;
+        }
+
+        if (!user) {
+          return res.status(401).send({
+            status: "ERR",
+            data: info.messages ? info.messages : info.toString(),
+          });
+        }
+
+        req.user = user;
+        next();
+      })(req, res, next);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ status: "error", error: err.message });
+    }
   };
 };
 
@@ -68,6 +78,8 @@ export const listNumbers = (...numbers) => {
 
 export const longExecutionFunction = () => {
   let result = 0;
-  for (let i = 0; i < 3e9; i++) result += i;
+  for (let i = 0; i < 3e9; i++) {
+    result += i;
+  }
   return result;
 };

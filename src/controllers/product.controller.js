@@ -1,4 +1,6 @@
-import productModel from '../models/product.model.js'
+import { ProductService } from "../dao/products.mongo.dao.js"
+
+const service = new ProductService()
 
 export class ProductController {
     constructor() {
@@ -6,8 +8,7 @@ export class ProductController {
 
     async addProduct(product) {
         try {
-            await productModel.create(product)
-            return "Producto agregado"
+            return await service.addProduct()
         } catch (err) {
             return err.message
         }
@@ -15,8 +16,7 @@ export class ProductController {
 
     async getProducts() {
         try {
-            const products = await productModel.find().lean()
-            return products
+            return await service.getProducts()
         } catch (err) {
             return err.message
         }
@@ -25,8 +25,7 @@ export class ProductController {
 
     async getProduct(id) {
         try {
-            const product = await productModel.findById(id)
-            return product === null ? 'No se encuentra el producto' : product
+            return await service.getProduct()
         } catch (err) {
             return err.message
         }
@@ -34,8 +33,7 @@ export class ProductController {
 
     async updateProduct(id, newContent) {
         try {
-            const procedure = await productModel.findByIdAndUpdate(id, newContent)
-            return procedure
+            return await service.updateProduct()
         } catch (err) {
             return err.message
         }
@@ -43,8 +41,7 @@ export class ProductController {
 
     async deleteProduct(id) {
         try {
-            const procedure = await productModel.findByIdAndDelete(id)
-            return procedure
+            return await service.deleteProduct()
         } catch (err) {
             return err.message
         }

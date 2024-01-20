@@ -19,8 +19,8 @@ switch (commandLineOptions.opts().mode) {
 }
 
 const config = {
-    PORT: commandLineOptions.opts().port || process.env.PORT,
-    //MONGOOSE_URL: process.env.MONGOOSE_URI,
+    mongoose_URL: process.env.MONGOOSE_URI,
+    SECRET_KEY: process.env.SECRET_KEY,
     githubAuth: {
         clientId: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,

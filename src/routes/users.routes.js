@@ -1,28 +1,40 @@
-import { Router } from 'express'
-import { UserController } from '../controllers/user.controller.mdb.js'
+import { Router } from "express";
+import { UserController } from "../controllers/user.controller.js";
 
-const router = Router()
-const controller = new UserController()
+const router = Router();
+const controller = new UserController();
 
-router.get('/', async (req, res) => {
-    try {
-        const users = await controller.getUsers()
-        res.status(200).send({ status: 'OK', data: users })
-    } catch (err) {
-        res.status(500).send({ status: 'ERR', data: err.message })
-    }
-})
+router.get("/", async (req, res) => {
+  try {
+    const users = await controller.getUsers();
+    res.status(200).send({ status: "OK", data: users });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send({ status: "ERR", message: "Error interno del servidor." });
+  }
+});
 
 // Podemos modificar el método getUsersPaginated() del controlador
 // para recibir parámetros que obtengamos aquí mediante req.params o req.query
-// http://localhost:5500/api/users/paginated?limit=100&page=2&sort=desc
-router.get('/paginated', async (req, res) => {
+// http://localhost:8080/api/users/paginated?limit=100&page=2&sort=desc
+router.get("/paginated", async (req, res) => {
     try {
-        const users = await controller.getUsersPaginated()
-        res.status(200).send({ status: 'OK', data: users })
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 50;
+  
+      if (isNaN(page) || isNaN(limit) || page < 1 || limit < 1) {
+        return res.status(400).send({
+          status: "ERR",
+          message: "Página no válida o parámetros de límite",
+        });
+      }
+  
+      const users = await controller.getUsersPaginated(page, limit);
+      res.status(200).send({ status: "OK", data: users });
     } catch (err) {
-        res.status(500).send({ status: 'ERR', data: err.message })
+      console.error("Error:", err);
+      res.status(500).send({ status: "ERR", message: "Error interno del servidor." });
     }
-})
+});
 
-export default router
+export default router;

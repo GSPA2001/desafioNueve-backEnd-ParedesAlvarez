@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CartController } from "../controllers/cart.controller.mdb.js";
+import { CartController } from "../controllers/cart.controller.js";
 import cartModel from "../models/cart.model.js";
 
 const router = Router();
@@ -19,6 +19,14 @@ router.get("/", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ status: "error", error: err.message });
+  }
+});
+
+router.get("/top", async (req, res) => {
+  try {
+    res.status(200).send({ status: "OK", data: await controller.getTopCart() });
+  } catch (err) {
+    res.status(500).send({ status: "ERR", data: err.message });
   }
 });
 
